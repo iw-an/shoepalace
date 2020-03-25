@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import io.forcesoftware.loaders.ProfileLoader;
 import io.forcesoftware.loaders.ProxyLoader;
+import io.forcesoftware.loaders.SettingsLoader;
 import org.apache.commons.lang3.SystemUtils;
 
 import org.apache.logging.log4j.LogManager;
@@ -31,6 +32,7 @@ public class Main {
 
         ProxyLoader.loadProxies();
         ProfileLoader.loadProfiles();
+        SettingsLoader.loadSettings();
 
     }
 

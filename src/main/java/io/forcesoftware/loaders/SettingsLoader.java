@@ -3,6 +3,7 @@ package io.forcesoftware.loaders;
 import com.google.gson.reflect.TypeToken;
 import io.forcesoftware.Main;
 import io.forcesoftware.models.billing.Profile;
+import io.forcesoftware.models.setting.Settings;
 
 import java.io.File;
 import java.nio.charset.Charset;
@@ -13,17 +14,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class ProfileLoader {
+public class SettingsLoader {
 
-    private static ArrayList<Profile> profiles;
+    private static Settings settings;
 
-    public static void loadProfiles(){
+    public static void loadSettings(){
 
-        Path applicationSupportDirectory = Paths.get(Main.getConfigPath() + "/profiles.json");
+        Path applicationSupportDirectory = Paths.get(Main.getConfigPath() + "/settings.json");
         if (!Files.exists(applicationSupportDirectory)){
             new File(Main.getConfigPath()).mkdirs();
-            List<String> lines = Arrays.asList("[]");
-            Path file = Paths.get(Main.getConfigPath() + "/profiles.json");
+            List<String> lines = Arrays.asList("{}");
+            Path file = Paths.get(Main.getConfigPath() + "/settings.json");
             try{
                 Files.write(file, lines, Charset.forName("UTF-8"));
             }catch (Exception e){
@@ -34,18 +35,18 @@ public class ProfileLoader {
 
         String contents;
         try{
-            contents = new String(Files.readAllBytes(Paths.get(Main.getConfigPath() + "/profiles.json")));
+            contents = new String(Files.readAllBytes(Paths.get(Main.getConfigPath() + "/settings.json")));
         }catch (Exception e){
             Runtime.getRuntime().halt(1);
             return;
         }
 
-        profiles = Main.getGson().fromJson(contents, new TypeToken<ArrayList<Profile>>(){}.getType());
+        settings = Main.getGson().fromJson(contents, Settings.class);
 
-        Main.getLogger().info("Loaded " + profiles.size() + " profiles");
+        Main.getLogger().info("Loaded settings");
     }
 
-    public static ArrayList<Profile> getProfiles() {
-        return profiles;
+    public static Settings getSettings() {
+        return settings;
     }
 }
