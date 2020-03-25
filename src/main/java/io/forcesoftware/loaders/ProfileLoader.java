@@ -17,30 +17,31 @@ public class ProfileLoader {
 
     private static ArrayList<Profile> profiles;
 
-    public static void loadProfiles(){
+    public static void loadProfiles() {
 
         Path applicationSupportDirectory = Paths.get(Main.getConfigPath() + "/profiles.json");
-        if (!Files.exists(applicationSupportDirectory)){
+        if (!Files.exists(applicationSupportDirectory)) {
             new File(Main.getConfigPath()).mkdirs();
             List<String> lines = Arrays.asList("[]");
             Path file = Paths.get(Main.getConfigPath() + "/profiles.json");
-            try{
+            try {
                 Files.write(file, lines, Charset.forName("UTF-8"));
-            }catch (Exception e){
+            } catch (Exception e) {
                 Runtime.getRuntime().halt(1);
                 return;
             }
         }
 
         String contents;
-        try{
+        try {
             contents = new String(Files.readAllBytes(Paths.get(Main.getConfigPath() + "/profiles.json")));
-        }catch (Exception e){
+        } catch (Exception e) {
             Runtime.getRuntime().halt(1);
             return;
         }
 
-        profiles = Main.getGson().fromJson(contents, new TypeToken<ArrayList<Profile>>(){}.getType());
+        profiles = Main.getGson().fromJson(contents, new TypeToken<ArrayList<Profile>>() {
+        }.getType());
 
         Main.getLogger().info("Loaded " + profiles.size() + " profiles");
     }

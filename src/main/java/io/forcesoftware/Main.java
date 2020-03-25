@@ -7,7 +7,6 @@ import io.forcesoftware.loaders.ProxyLoader;
 import io.forcesoftware.loaders.SettingsLoader;
 import io.forcesoftware.loaders.TaskLoader;
 import org.apache.commons.lang3.SystemUtils;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -20,11 +19,11 @@ public class Main {
 
     private static Gson gson;
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
 
-        if (SystemUtils.IS_OS_WINDOWS){
+        if (SystemUtils.IS_OS_WINDOWS) {
             configPath = System.getenv("AppData") + "/spbot";
-        }else if (SystemUtils.IS_OS_MAC){
+        } else if (SystemUtils.IS_OS_MAC) {
             configPath = System.getProperty("user.home") + "/Library/Application Support/spbot";
         }
 

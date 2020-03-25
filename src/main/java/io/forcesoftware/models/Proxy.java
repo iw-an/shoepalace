@@ -1,7 +1,5 @@
 package io.forcesoftware.models;
 
-import java.util.UUID;
-
 public class Proxy {
 
     private String ip;

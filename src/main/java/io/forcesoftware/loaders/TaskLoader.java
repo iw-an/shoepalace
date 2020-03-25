@@ -2,7 +2,6 @@ package io.forcesoftware.loaders;
 
 import com.google.gson.reflect.TypeToken;
 import io.forcesoftware.Main;
-import io.forcesoftware.models.billing.Profile;
 import io.forcesoftware.models.task.TaskData;
 
 import java.io.File;
@@ -18,30 +17,31 @@ public class TaskLoader {
 
     private static ArrayList<TaskData> tasks;
 
-    public static void loadTasks(){
+    public static void loadTasks() {
 
         Path applicationSupportDirectory = Paths.get(Main.getConfigPath() + "/tasks.json");
-        if (!Files.exists(applicationSupportDirectory)){
+        if (!Files.exists(applicationSupportDirectory)) {
             new File(Main.getConfigPath()).mkdirs();
             List<String> lines = Arrays.asList("[]");
             Path file = Paths.get(Main.getConfigPath() + "/tasks.json");
-            try{
+            try {
                 Files.write(file, lines, Charset.forName("UTF-8"));
-            }catch (Exception e){
+            } catch (Exception e) {
                 Runtime.getRuntime().halt(1);
                 return;
             }
         }
 
         String contents;
-        try{
+        try {
             contents = new String(Files.readAllBytes(Paths.get(Main.getConfigPath() + "/tasks.json")));
-        }catch (Exception e){
+        } catch (Exception e) {
             Runtime.getRuntime().halt(1);
             return;
         }
 
-        tasks = Main.getGson().fromJson(contents, new TypeToken<ArrayList<TaskData>>(){}.getType());
+        tasks = Main.getGson().fromJson(contents, new TypeToken<ArrayList<TaskData>>() {
+        }.getType());
 
         Main.getLogger().info("Loaded " + tasks.size() + " profiles");
     }
