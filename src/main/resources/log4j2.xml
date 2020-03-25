@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+    <Appenders>
+        <RandomAccessFile name="taskFile" fileName="logs/task.log" immediateFlush="false" append="true">
+            <PatternLayout>
+                <Pattern>[%d{HH:mm:ss.SSS}][%t][%-5level] %msg%n</Pattern>
+            </PatternLayout>
+        </RandomAccessFile>
+        <RandomAccessFile name="botFile" fileName="logs/bot.log" immediateFlush="false" append="true">
+            <PatternLayout>
+                <Pattern>[%d{HH:mm:ss.SSS}][%t][%-5level] %msg%n</Pattern>
+            </PatternLayout>
+        </RandomAccessFile>
+        <Console name="console">
+            <PatternLayout pattern="[%d{HH:mm:ss.SSS}][%t][%-5level] %msg%n"/>
+        </Console>
+    </Appenders>
+    <Loggers>
+        <AsyncLogger name="io.forcesoftware.Task" level="debug" additivity="false">
+            <AppenderRef ref="taskFile"/>
+            <AppenderRef ref="console"/>
+        </AsyncLogger>
+        <AsyncLogger name="io.forcesoftware.Main" level="debug" additivity="false">
+            <AppenderRef ref="botFile"/>
+            <AppenderRef ref="console"/>
+        </AsyncLogger>
+    </Loggers>
+</Configuration>
