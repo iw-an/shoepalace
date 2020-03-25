@@ -1,5 +1,8 @@
 package io.forcesoftware;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import io.forcesoftware.loaders.ProfileLoader;
 import io.forcesoftware.loaders.ProxyLoader;
 import org.apache.commons.lang3.SystemUtils;
 
@@ -13,6 +16,8 @@ public class Main {
 
     private static Logger logger;
 
+    private static Gson gson;
+
     public static void main(String[] args){
 
         if (SystemUtils.IS_OS_WINDOWS){
@@ -22,8 +27,10 @@ public class Main {
         }
 
         logger = LogManager.getLogger("io.forcesoftware.Main");
+        gson = new GsonBuilder().setPrettyPrinting().create();
 
         ProxyLoader.loadProxies();
+        ProfileLoader.loadProfiles();
 
     }
 
@@ -33,5 +40,9 @@ public class Main {
 
     public static Logger getLogger() {
         return logger;
+    }
+
+    public static Gson getGson() {
+        return gson;
     }
 }
