@@ -6,6 +6,8 @@ import io.forcesoftware.loaders.ProfileLoader;
 import io.forcesoftware.loaders.ProxyLoader;
 import io.forcesoftware.loaders.SettingsLoader;
 import io.forcesoftware.loaders.TaskLoader;
+import io.forcesoftware.models.task.TaskData;
+import io.forcesoftware.tasks.ShoePalaceTask;
 import org.apache.commons.lang3.SystemUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -34,6 +36,11 @@ public class Main {
         ProfileLoader.loadProfiles();
         TaskLoader.loadTasks();
         SettingsLoader.loadSettings();
+
+        for (TaskData taskData: TaskLoader.getTasks()){
+            ShoePalaceTask shoePalaceTask = new ShoePalaceTask(taskData);
+            shoePalaceTask.start();
+        }
     }
 
     public static String getConfigPath() {
