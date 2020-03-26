@@ -3,7 +3,7 @@
     <Appenders>
         <RandomAccessFile name="taskFile" fileName="logs/task.log" immediateFlush="false" append="true">
             <PatternLayout>
-                <Pattern>[%d{HH:mm:ss.SSS}][%t][%-5level] %msg%n</Pattern>
+                <Pattern>[%d{HH:mm:ss.SSS}][%t][%level] %msg%n</Pattern>
             </PatternLayout>
         </RandomAccessFile>
         <RandomAccessFile name="botFile" fileName="logs/bot.log" immediateFlush="false" append="true">
@@ -12,7 +12,9 @@
             </PatternLayout>
         </RandomAccessFile>
         <Console name="console">
-            <PatternLayout pattern="[%d{HH:mm:ss.SSS}][%t][%level] %msg%n"/>
+            <PatternLayout>
+                <Pattern>[%d{HH:mm:ss.SSS}][%t][%level] %msg%n</Pattern>
+            </PatternLayout>
         </Console>
     </Appenders>
     <Loggers>
