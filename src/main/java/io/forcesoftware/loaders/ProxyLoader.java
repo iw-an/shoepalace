@@ -2,6 +2,7 @@ package io.forcesoftware.loaders;
 
 import io.forcesoftware.Main;
 import io.forcesoftware.models.Proxy;
+import lombok.Getter;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -11,6 +12,7 @@ import java.util.stream.Stream;
 
 public class ProxyLoader extends Loader {
 
+    @Getter
     private List<Proxy> proxies;
 
     public void loadProxies() {
@@ -42,5 +44,4 @@ public class ProxyLoader extends Loader {
     public String getFileName() {
         return "proxies.txt";
     }
-
 }

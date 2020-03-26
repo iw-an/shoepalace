@@ -2,9 +2,11 @@ package io.forcesoftware.loaders;
 
 import io.forcesoftware.Main;
 import io.forcesoftware.models.setting.Settings;
+import lombok.Getter;
 
 public class SettingsLoader extends Loader {
 
+    @Getter
     private Settings settings;
 
     public void loadSettings() {
@@ -18,9 +20,5 @@ public class SettingsLoader extends Loader {
     @Override
     public String getFileName() {
         return "settings.json";
-    }
-
-    public Settings getSettings() {
-        return settings;
     }
 }

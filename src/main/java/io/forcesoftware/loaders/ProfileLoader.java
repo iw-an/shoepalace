@@ -3,11 +3,13 @@ package io.forcesoftware.loaders;
 import com.google.gson.reflect.TypeToken;
 import io.forcesoftware.Main;
 import io.forcesoftware.models.billing.Profile;
+import lombok.Getter;
 
 import java.util.List;
 
 public class ProfileLoader extends Loader {
 
+    @Getter
     private List<Profile> profiles;
 
     public void loadProfiles() {
@@ -22,9 +24,5 @@ public class ProfileLoader extends Loader {
     @Override
     public String getFileName() {
         return "profiles.json";
-    }
-
-    public List<Profile> getProfiles() {
-        return profiles;
     }
 }

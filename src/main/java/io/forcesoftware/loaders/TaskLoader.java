@@ -3,11 +3,13 @@ package io.forcesoftware.loaders;
 import com.google.gson.reflect.TypeToken;
 import io.forcesoftware.Main;
 import io.forcesoftware.models.task.TaskData;
+import lombok.Getter;
 
 import java.util.List;
 
 public class TaskLoader extends Loader {
 
+    @Getter
     private List<TaskData> tasks;
 
     public void loadTasks() {
@@ -22,9 +24,5 @@ public class TaskLoader extends Loader {
     @Override
     public String getFileName() {
         return "tasks.json";
-    }
-
-    public List<TaskData> getTasks() {
-        return tasks;
     }
 }
