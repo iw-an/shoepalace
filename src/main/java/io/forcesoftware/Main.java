@@ -15,43 +15,64 @@ import org.apache.logging.log4j.Logger;
 
 public class Main {
 
-    private static String configPath;
+    public static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
+    public static final Logger LOGGER = LogManager.getLogger("io.forcesoftware.Main");
 
-    private static Logger logger;
+    public static String configPath;
 
-    private static Gson gson;
+    private static Main instance;
 
     public static void main(String[] args) {
-
         if (SystemUtils.IS_OS_WINDOWS) {
             configPath = System.getenv("AppData") + "/spbot";
         } else if (SystemUtils.IS_OS_MAC) {
             configPath = System.getProperty("user.home") + "/Library/Application Support/spbot";
         }
 
-        logger = LogManager.getLogger("io.forcesoftware.Main");
-        gson = new GsonBuilder().setPrettyPrinting().create();
+        instance = new Main();
+    }
 
-        ProxyLoader.loadProxies();
-        ProfileLoader.loadProfiles();
-        TaskLoader.loadTasks();
-        SettingsLoader.loadSettings();
+    private ProfileLoader profileLoader;
+    private ProxyLoader proxyLoader;
+    private SettingsLoader settingsLoader;
+    private TaskLoader taskLoader;
 
-        for (TaskData taskData: TaskLoader.getTasks()){
+    public Main() {
+        registerLoaders();
+        beginTasks();
+    }
+
+    private void registerLoaders() {
+        (profileLoader = new ProfileLoader()).loadProfiles();
+        (proxyLoader = new ProxyLoader()).loadProxies();
+        (settingsLoader = new SettingsLoader()).loadSettings();
+        (taskLoader = new TaskLoader()).loadTasks();
+    }
+
+    private void beginTasks() {
+        for (TaskData taskData : taskLoader.getTasks()) {
             ShoePalaceTask shoePalaceTask = new ShoePalaceTask(taskData);
             shoePalaceTask.start();
         }
     }
 
-    public static String getConfigPath() {
-        return configPath;
+    public ProfileLoader getProfileLoader() {
+        return profileLoader;
     }
 
-    public static Logger getLogger() {
-        return logger;
+    public ProxyLoader getProxyLoader() {
+        return proxyLoader;
     }
 
-    public static Gson getGson() {
-        return gson;
+    public SettingsLoader getSettingsLoader() {
+        return settingsLoader;
+    }
+
+    public TaskLoader getTaskLoader() {
+        return taskLoader;
+    }
+
+    public static Main getInstance() {
+        return instance;
     }
 }
