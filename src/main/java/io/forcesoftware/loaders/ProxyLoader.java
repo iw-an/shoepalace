@@ -2,40 +2,25 @@ package io.forcesoftware.loaders;
 
 import io.forcesoftware.Main;
 import io.forcesoftware.models.Proxy;
+import lombok.Getter;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
-public class ProxyLoader {
+public class ProxyLoader extends Loader {
 
-    private static ArrayList<Proxy> proxies;
+    @Getter
+    private List<Proxy> proxies;
 
-    public static void loadProxies() {
+    public void loadProxies() {
+        this.proxies = new ArrayList<>();
 
-        proxies = new ArrayList<>();
+        loadFile("");
 
-        Path applicationSupportDirectory = Paths.get(Main.getConfigPath() + "/proxies.txt");
-        if (!Files.exists(applicationSupportDirectory)) {
-            new File(Main.getConfigPath()).mkdirs();
-            List<String> lines = Arrays.asList("");
-            Path file = Paths.get(Main.getConfigPath() + "/proxies.txt");
-            try {
-                Files.write(file, lines, Charset.forName("UTF-8"));
-            } catch (Exception e) {
-                Runtime.getRuntime().halt(1);
-                return;
-            }
-        }
-
-        try (Stream<String> stream = Files.lines(applicationSupportDirectory)) {
+        try (Stream<String> stream = Files.lines(getFile().toPath())) {
             stream.forEach((line) -> {
                 String[] text = line.split(":");
                 if (text.length >= 2) {
@@ -47,10 +32,16 @@ public class ProxyLoader {
                 }
             });
         } catch (IOException e) {
-
+            Main.LOGGER.error("Could not load proxies: " + e.getLocalizedMessage());
+            e.printStackTrace();
+            return;
         }
 
-        Main.getLogger().info("Loaded " + proxies.size() + " proxies");
+        Main.LOGGER.info("Loaded " + proxies.size() + " proxies");
     }
 
+    @Override
+    public String getFileName() {
+        return "proxies.txt";
+    }
 }

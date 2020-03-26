@@ -1,5 +1,10 @@
 package io.forcesoftware.models.billing;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class Address {
 
     private String firstName;
@@ -11,35 +16,60 @@ public class Address {
     private String state;
     private String phone;
 
-    public String getFirstName() {
-        return firstName;
-    }
+    public static class Builder {
 
-    public String getLastName() {
-        return lastName;
-    }
+        private Address address;
 
-    public String getAddressOne() {
-        return addressOne;
-    }
+        public Builder() {
+            address = new Address();
+        }
 
-    public String getAddressTwo() {
-        return addressTwo;
-    }
+        public Builder(Address address) {
+            this.address = address;
+        }
 
-    public String getCity() {
-        return city;
-    }
+        public Builder firstName(String firstName) {
+            this.address.setFirstName(firstName);
+            return this;
+        }
 
-    public String getZip() {
-        return zip;
-    }
+        public Builder lastName(String lastName) {
+            this.address.setLastName(lastName);
+            return this;
+        }
 
-    public String getState() {
-        return state;
-    }
+        public Builder addressOne(String addressOne) {
+            this.address.setAddressOne(addressOne);
+            return this;
+        }
 
-    public String getPhone() {
-        return phone;
+        public Builder addressTwo(String addressTwo) {
+            this.address.setAddressTwo(addressTwo);
+            return this;
+        }
+
+        public Builder city(String city) {
+            this.address.setCity(city);
+            return this;
+        }
+
+        public Builder zip(String zip) {
+            this.address.setZip(zip);
+            return this;
+        }
+
+        public Builder state(String state) {
+            this.address.setState(state);
+            return this;
+        }
+
+        public Builder phone(String phone) {
+            this.address.setPhone(phone);
+            return this;
+        }
+
+        public Address build() {
+            return address;
+        }
     }
 }
