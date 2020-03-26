@@ -16,7 +16,7 @@ public class ProxyLoader extends Loader {
     private List<Proxy> proxies;
 
     public void loadProxies() {
-        proxies = new ArrayList<>();
+        this.proxies = new ArrayList<>();
 
         loadFile("");
 

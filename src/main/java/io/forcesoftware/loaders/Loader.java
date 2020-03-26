@@ -20,7 +20,11 @@ public abstract class Loader {
         file = new File(Main.configPath + "/" + getFileName());
 
         if (!file.exists()) {
-            file.mkdirs();
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
             List<String> lines = Collections.singletonList(defaultContents);
             try {
@@ -28,6 +32,14 @@ public abstract class Loader {
             } catch (Exception e) {
                 Runtime.getRuntime().halt(1);
             }
+        }
+    }
+
+    protected void saveData(Object object) {
+        try {
+            Files.write(Paths.get(getFile().getAbsolutePath()), Main.GSON.toJson(object).getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

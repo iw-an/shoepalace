@@ -1,6 +1,5 @@
 package io.forcesoftware.tasks;
 
-import io.forcesoftware.Main;
 import io.forcesoftware.ShoePalaceBot;
 import io.forcesoftware.models.billing.Profile;
 import io.forcesoftware.models.task.TaskData;

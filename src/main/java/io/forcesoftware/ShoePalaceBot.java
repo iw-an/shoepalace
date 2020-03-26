@@ -4,6 +4,9 @@ import io.forcesoftware.loaders.ProfileLoader;
 import io.forcesoftware.loaders.ProxyLoader;
 import io.forcesoftware.loaders.SettingsLoader;
 import io.forcesoftware.loaders.TaskLoader;
+import io.forcesoftware.models.billing.Address;
+import io.forcesoftware.models.billing.Card;
+import io.forcesoftware.models.billing.Profile;
 import io.forcesoftware.models.task.TaskData;
 import io.forcesoftware.tasks.ShoePalaceTask;
 import lombok.Getter;
@@ -23,6 +26,10 @@ public class ShoePalaceBot {
 
         registerLoaders();
         beginTasks();
+
+        setupShutdownHook();
+
+        // createDummyData();
     }
 
     private void registerLoaders() {
@@ -32,11 +39,56 @@ public class ShoePalaceBot {
         (taskLoader = new TaskLoader()).loadTasks();
     }
 
+    private void setupShutdownHook() {
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            profileLoader.saveProfiles();
+            taskLoader.saveTasks();
+        }));
+    }
+
     private void beginTasks() {
         for (TaskData taskData : taskLoader.getTasks()) {
             ShoePalaceTask shoePalaceTask = new ShoePalaceTask(taskData);
             shoePalaceTask.start();
         }
+    }
+
+    /**
+     * Simple method which will generate dummy data to test with
+     */
+    private void createDummyData() {
+        Card card = new Card.Builder()
+                .cardNumber("1234 1234 1234 1234")
+                .cardExpiryMonth("10")
+                .cardExpiryYear("2027")
+                .cardCvv("123")
+                .build();
+
+        Address address = new Address.Builder()
+                .addressOne("123 south st.")
+                .state("California")
+                .city("Los Angeles")
+                .zip("90405")
+                .firstName("Joe")
+                .lastName("Smith")
+                .phone("123 456 7890")
+                .build();
+
+        Profile profile = new Profile.Builder()
+                .alias("test")
+                .email("email@test.com")
+                .card(card)
+                .shippingAddress(address)
+                .build();
+
+        TaskData taskData = new TaskData.Builder()
+                .id("1")
+                .url("https://shoepalace.com")
+                .profileAlias("test")
+                .builder();
+
+        profileLoader.getProfiles().add(profile);
+        taskLoader.getTasks().add(taskData);
     }
 
     public static ShoePalaceBot getInstance() {
