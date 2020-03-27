@@ -17,7 +17,7 @@ public abstract class Loader {
     public abstract String getFileName();
 
     protected void loadFile(String defaultContents) {
-        file = new File(Main.configPath + "/" + getFileName());
+        file = new File(Main.configPath + File.separator + getFileName());
 
         if (!file.exists()) {
             try {
