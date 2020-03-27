@@ -4,13 +4,14 @@ import io.forcesoftware.Main;
 import io.forcesoftware.models.Proxy;
 import lombok.Getter;
 
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-public class ProxyLoader extends Loader {
+public class ProxyLoader extends Loader<List<Proxy>> {
 
     @Getter
     private List<Proxy> proxies;
@@ -37,11 +38,37 @@ public class ProxyLoader extends Loader {
             return;
         }
 
-        Main.LOGGER.info("Loaded " + proxies.size() + " proxies");
+        int amount = proxies.size();
+        Main.LOGGER.info("Loaded " + amount + " prox" + (amount == 1 ? "y" : "ies"));
     }
 
     @Override
-    public String getFileName() {
+    public void saveData() {
+        try {
+            FileWriter writer = new FileWriter(getFileName());
+
+            proxies.stream().map(Proxy::toString).forEach(line -> {
+                try {
+                    writer.write(line + System.lineSeparator());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
+
+            writer.flush();
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected String getFileName() {
         return "proxies.txt";
+    }
+
+    @Override
+    protected List<Proxy> getType() {
+        return proxies;
     }
 }

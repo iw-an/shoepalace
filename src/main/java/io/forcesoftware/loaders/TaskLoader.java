@@ -8,7 +8,7 @@ import lombok.Getter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TaskLoader extends Loader {
+public class TaskLoader extends Loader<List<TaskData>> {
 
     @Getter
     private List<TaskData> tasks;
@@ -21,15 +21,25 @@ public class TaskLoader extends Loader {
         tasks = Main.GSON.fromJson(getFileContents(), new TypeToken<List<TaskData>>() {
         }.getType());
 
-        Main.LOGGER.info("Loaded " + tasks.size() + " tasks");
+        int amount = tasks.size();
+        Main.LOGGER.info("Loaded " + amount + " task" + (amount == 1 ? "" : "s"));
     }
 
-    public void saveTasks() {
-        saveData(tasks);
+    public void addTask(TaskData taskData) {
+        this.tasks.add(taskData);
+    }
+
+    public void removeTask(TaskData taskData) {
+        this.tasks.remove(taskData);
     }
 
     @Override
-    public String getFileName() {
+    protected String getFileName() {
         return "tasks.json";
+    }
+
+    @Override
+    protected List<TaskData> getType() {
+        return tasks;
     }
 }

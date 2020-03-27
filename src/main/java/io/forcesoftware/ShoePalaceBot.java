@@ -41,8 +41,9 @@ public class ShoePalaceBot {
 
     private void setupShutdownHook() {
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            profileLoader.saveProfiles();
-            taskLoader.saveTasks();
+            profileLoader.saveData();
+            taskLoader.saveData();
+            settingsLoader.saveData();
         }));
     }
 
@@ -87,8 +88,8 @@ public class ShoePalaceBot {
                 .profileAlias("test")
                 .builder();
 
-        profileLoader.getProfiles().add(profile);
-        taskLoader.getTasks().add(taskData);
+        profileLoader.addProfile(profile);
+        taskLoader.addTask(taskData);
     }
 
     public static ShoePalaceBot getInstance() {
