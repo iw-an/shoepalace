@@ -10,11 +10,13 @@ import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.List;
 
-public abstract class Loader {
+public abstract class Loader<Type> {
 
     private File file;
 
-    public abstract String getFileName();
+    protected abstract String getFileName();
+
+    protected abstract Type getType();
 
     protected void loadFile(String defaultContents) {
         file = new File(Main.configPath + "/" + getFileName());
@@ -24,6 +26,7 @@ public abstract class Loader {
                 file.createNewFile();
             } catch (IOException e) {
                 e.printStackTrace();
+                return;
             }
 
             List<String> lines = Collections.singletonList(defaultContents);
@@ -35,9 +38,9 @@ public abstract class Loader {
         }
     }
 
-    protected void saveData(Object object) {
+    public void saveData() {
         try {
-            Files.write(Paths.get(getFile().getAbsolutePath()), Main.GSON.toJson(object).getBytes());
+            Files.write(Paths.get(getFile().getAbsolutePath()), Main.GSON.toJson(getType()).getBytes());
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -12,8 +12,6 @@ public class ShoePalaceTask extends Thread {
 
     private TaskData taskData;
 
-    private Profile profile;
-
     public ShoePalaceTask(TaskData taskData) {
         super("ShoePalaceTask-" + taskData.getId());
 
@@ -23,11 +21,7 @@ public class ShoePalaceTask extends Thread {
 
     @Override
     public void run() {
-        for (Profile profile : ShoePalaceBot.getInstance().getProfileLoader().getProfiles()) {
-            if (profile.getAlias().equals(taskData.getProfileAlias())) {
-                this.profile = profile;
-            }
-        }
+        Profile profile = ShoePalaceBot.getInstance().getProfileLoader().getProfile(taskData.getProfileAlias());
 
         if (profile == null) {
             logger.error("Failed to find profile for task");

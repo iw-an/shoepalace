@@ -4,7 +4,7 @@ import io.forcesoftware.Main;
 import io.forcesoftware.models.setting.Settings;
 import lombok.Getter;
 
-public class SettingsLoader extends Loader {
+public class SettingsLoader extends Loader<Settings> {
 
     @Getter
     private Settings settings;
@@ -18,7 +18,12 @@ public class SettingsLoader extends Loader {
     }
 
     @Override
-    public String getFileName() {
+    protected String getFileName() {
         return "settings.json";
+    }
+
+    @Override
+    protected Settings getType() {
+        return settings;
     }
 }
